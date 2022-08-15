@@ -131,6 +131,8 @@ def parseArg():
                         help="download directory for all gcc packages", metavar="<str>")
     parser.add_argument("-i", "--install-dir", required=True,
                         help="install directory", metavar="<str>")
+    parser.add_argument("-t", "--threads", default=10, type=int,
+                        help="threads number of build gcc, 10 by default", metavar="<int>")
     parser.add_argument('-v', '--version',
                         action='version', version="v" + __version__)
     return parser.parse_args()

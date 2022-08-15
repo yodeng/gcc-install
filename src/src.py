@@ -6,11 +6,10 @@ from .utils import *
 
 class BuildGCC(Utils):
 
-    def __init__(self, version, download_dir, verbose=True, threads=20):
+    def __init__(self, version, download_dir, verbose=True):
         self.version = re.match("^\d", version) and "gcc-" + version or version
         self.download_dir = os.path.abspath(download_dir)
         self.verbose = verbose
-        self.threads = threads
 
     def download_gcc(self):
         url = os.path.join(gcc_base_url, self.version,
@@ -58,10 +57,10 @@ class BuildGCC(Utils):
             self.call(["ln", "-sf", os.path.join(self.download_dir, self.version, n.split(".tar.")
                                                  [0]), os.path.join(self.download_dir, self.version, n.split("-")[0])], shell=False, verbose=False)
 
-    def build(self, install_dir):
+    def build(self, install_dir, threads=20):
         configure_cmd = "./configure --prefix=%s -enable-checking=release --enable-languages=c,c++ --disable-multilib" % install_dir
-        make_cmd = "make -j %s" % self.threads
-        make_install_cmd = "make install -j %s" % self.threads
+        make_cmd = "make -j %s" % threads
+        make_install_cmd = "make install -j %s" % threads
         os.chdir(os.path.join(self.download_dir, self.version))
         for c in [configure_cmd, make_cmd, make_install_cmd]:
             self.call(c, shell=True, verbose=False)
@@ -70,7 +69,7 @@ class BuildGCC(Utils):
     def loger(self):
         return logging.getLogger()
 
-    def install(self, install_dir):
+    def install(self, install_dir, threads=20):
         self.loger.info(
             "starting download %s and all dependancy", self.version)
         self.download_gcc()
@@ -78,5 +77,5 @@ class BuildGCC(Utils):
         time.sleep(3)
         self.loger.info("starting build %s", self.version)
         install_dir = os.path.abspath(install_dir)
-        self.build(install_dir)
+        self.build(install_dir, threads=threads)
         self.loger.info("install %s success: %s", self.version, install_dir)
