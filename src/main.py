@@ -27,7 +27,7 @@ def main():
     download_dir = args.download_dir
     install_dir = args.install_dir
     gc = BuildGCC(version, download_dir)
-    gc.install(install_dir)
+    gc.install(install_dir, threads=args.threads)
 
 
 if __name__ == "__main__":
