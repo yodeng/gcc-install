@@ -17,10 +17,6 @@ class Utils(object):
 
     cmds = []
 
-    @property
-    def loger(self):
-        return logging.getLogger()
-
     def call(self, cmd, run=True, verbose=False, shell=True):
         if not shell:
             cmd_string = " ".join(cmd)

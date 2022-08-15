@@ -59,10 +59,24 @@ class BuildGCC(Utils):
                                                  [0]), os.path.join(self.download_dir, self.version, n.split("-")[0])], shell=False, verbose=False)
 
     def build(self, install_dir):
-        install_dir = os.path.abspath(install_dir)
         configure_cmd = "./configure --prefix=%s -enable-checking=release --enable-languages=c,c++ --disable-multilib" % install_dir
         make_cmd = "make -j %s" % self.threads
         make_install_cmd = "make install -j %s" % self.threads
         os.chdir(os.path.join(self.download_dir, self.version))
         for c in [configure_cmd, make_cmd, make_install_cmd]:
             self.call(c, shell=True, verbose=False)
+
+    @property
+    def loger(self):
+        return logging.getLogger()
+
+    def install(self, install_dir):
+        self.loger.info(
+            "starting download %s and all dependancy", self.version)
+        self.download_gcc()
+        self.loger.info("download %s success", self.version)
+        time.sleep(3)
+        self.loger.info("starting build %s", self.version)
+        install_dir = os.path.abspath(install_dir)
+        self.build(install_dir)
+        self.loger.info("install %s success: %s", self.version, install_dir)
