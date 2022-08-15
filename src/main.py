@@ -27,14 +27,7 @@ def main():
     download_dir = args.download_dir
     install_dir = args.install_dir
     gc = BuildGCC(version, download_dir)
-    log.info(
-        "starting download %s and all dependancy", version)
-    gc.download_gcc()
-    log.info("download %s success", version)
-    time.sleep(3)
-    log.info("starting build %s", version)
-    gc.build(install_dir)
-    log.info("install %s success: %s", version, install_dir)
+    gc.install(install_dir)
 
 
 if __name__ == "__main__":
