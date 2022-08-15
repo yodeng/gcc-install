@@ -58,7 +58,7 @@ setup(
     version=get_version(),
     packages=["gcc_install"],
     license="MIT",
-    url="https://github.com/yodeng/hget",
+    url="https://github.com/yodeng/gcc-install",
     package_dir={"gcc_install": "src"},
     install_requires=get_requirement(),
     python_requires='>=3.7',
