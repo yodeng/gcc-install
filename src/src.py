@@ -19,7 +19,7 @@ class BuildGCC(Utils):
         outfile = os.path.join(self.download_dir, filename)
         if not os.path.isfile(outfile) or os.path.isfile(outfile+".ht"):
             hget(url=url, outfile=os.path.join(self.download_dir,
-                 filename), quite=True, timeout=30)
+                 filename), quite=False, timeout=30)
         self.uncompress(os.path.join(self.download_dir, filename),
                         self.download_dir, verbose=False)
         with open(os.path.join(self.download_dir, self.version, "contrib/download_prerequisites")) as fo:
@@ -51,7 +51,7 @@ class BuildGCC(Utils):
             outfile = os.path.join(
                 self.download_dir, self.version, os.path.basename(url))
             if not os.path.isfile(outfile) or os.path.isfile(outfile+".ht"):
-                hget(url=url, outfile=outfile, timeout=30, quite=True)
+                hget(url=url, outfile=outfile, timeout=30, quite=False)
             self.uncompress(os.path.join(self.download_dir, self.version, n), os.path.join(
                 self.download_dir, self.version), verbose=False)
             self.call(["ln", "-sf", os.path.join(self.download_dir, self.version, n.split(".tar.")
